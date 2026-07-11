@@ -365,6 +365,27 @@
   .win-panel{text-align:center;}
   .win-panel .big{font-family:var(--font-display);font-size:30px;font-weight:700;color:var(--accent);margin:6px 0 4px;}
 
+  #winOverlay{background:rgba(2,5,4,0.94);backdrop-filter:blur(6px);}
+  #winOverlay .win-panel{
+    position:relative;max-width:640px;padding:44px 40px 38px;
+    box-shadow:0 20px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(232,185,61,0.15);
+    animation:winPanelPop .4s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes winPanelPop{from{opacity:0;transform:scale(.82);}to{opacity:1;transform:scale(1);}}
+  #winOverlay .win-panel > div:first-child{font-size:52px;}
+  #winOverlay .win-panel .big{font-size:36px;}
+  #winOverlay .win-panel p{font-size:15px;}
+
+  .modal-close-btn{
+    position:absolute;top:14px;right:14px;
+    width:34px;height:34px;border-radius:50%;
+    border:1.5px solid var(--chalk-faint);background:rgba(255,255,255,0.04);
+    color:var(--chalk-dim);font-size:16px;font-weight:700;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;line-height:1;
+    transition:all .15s ease;
+  }
+  .modal-close-btn:hover{border-color:var(--bad);color:var(--bad);background:rgba(232,115,90,0.14);transform:rotate(90deg);}
+
   #gameArea{position:relative;}
   .win-banner{
     position:absolute;top:6px;left:50%;transform:translateX(-50%);
@@ -763,6 +784,7 @@
 
 <div class="overlay" id="winOverlay" style="display:none;">
   <div class="panel win-panel">
+    <button class="modal-close-btn" id="btnCloseWinOverlay" title="關閉，回到遊戲畫面" aria-label="關閉">✕</button>
     <div style="font-size:38px;">🏆</div>
     <div class="big" id="winText">你獲勝了！</div>
     <p style="color:var(--chalk-dim);font-size:14px;">再挑戰一次，或換個模式試試看。</p>
@@ -1775,6 +1797,10 @@
     document.getElementById('modeOverlay').style.display='flex';
     playLobbyMusic();
   });
+  document.getElementById('btnCloseWinOverlay').addEventListener('click', ()=>{
+    sfxClick();
+    document.getElementById('winOverlay').style.display='none';
+  });
   document.getElementById('btnBannerPlayAgain').addEventListener('click', ()=>{
     clearWinInactivityTimer();
     document.getElementById('winBanner').style.display='none';
@@ -1815,4 +1841,4 @@
 })();
 </script>
 </body>
-</html>
+  </html>
